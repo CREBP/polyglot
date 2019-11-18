@@ -28,6 +28,7 @@ export default {
 			replaceWildcards: true,
 			transposeLines: true,
 			highlighting: true,
+			disableLineExpansion: false,
 		},
 		exampleLast: '',
 	}),
@@ -143,6 +144,10 @@ export default {
 				<div class="card-header">
 					Your query
 					<div class="pull-right">
+						<div>
+							<label for="checkbox">Disable line expansion </label>
+							<input type="checkbox" id="checkbox" v-model="polyglotOptions.disableLineExpansion">
+						</div>
 						<a v-on:click="clear()" class="btn btn-sm btn-default"><i class="fa fa-eraser" title="Clear search"></i></a>
 						<a v-on:click="copyQuery()" class="btn btn-sm btn-default"><i class="fa fa-clipboard" title="Copy to clipboard"></i></a>
 						<a v-on:click="showExample()" class="btn btn-sm btn-default"><i class="fa fa-random" title="Show a random example"></i></a>
