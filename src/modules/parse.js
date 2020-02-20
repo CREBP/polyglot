@@ -328,7 +328,7 @@ export const parse = (query, options) => {
             offset += match[0].length;
             q = q.substr(match[0].length);
             cropString = false;
-        } else if (match = /^\[(tiab|title\/abstract|ti|title|tw|ab|nm|sh|pt|all|all fields|la|language)\]/i.exec(q)) { // Field specifier - PubMed syntax
+        } else if (match = /^\[(tiab|title\/abstract|ti|title|tw|ab|nm|sh|pt|all|all fields|la|language|dp|date - publication)\]/i.exec(q)) { // Field specifier - PubMed syntax
             // Figure out the leaf to use (usually the last one) or the previously used group {{{
             var useLeaf;
             if (_.isObject(leaf) && leaf.type == 'phrase') {
@@ -364,11 +364,16 @@ export const parse = (query, options) => {
                     break;
                 case 'all':
                 case 'all fields':
-                    useLeaf.field = 'allFields'
+                    useLeaf.field = 'allFields';
                     break;
                 case 'la':
                 case 'language':
-                    useLeaf.field = 'language'
+                    useLeaf.field = 'language';
+                    break;
+                case 'dp':
+                case 'date-publication':
+                    useLeaf.field = 'publicationDate';
+                    if (useLeaf.content) print(useLeaf.content);
                     break;
             }
             offset += match[0].length;
@@ -392,7 +397,8 @@ export const parse = (query, options) => {
                     q = q.substr(match[0].length);
                     cropString = false;
                 } else if (match = /^[^\s:/[.)]+/.exec(q)) { // Slurp the phrase until the space or any character which indicates the end of a phrase
-                    leaf = {type: 'phrase', content: match[0], offset: offset};
+                    console.log(q);
+                    leaf = {type: 'phrase', content: match[0], offset: offset};           // unless that character is part of a date
                     branch.nodes.push(leaf);
                     offset += match[0].length;
                     q = q.substr(match[0].length);
