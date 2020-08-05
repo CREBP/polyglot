@@ -113,6 +113,9 @@ export default {
                                 buffer += 'exp *' + branch.content + '/';
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

@@ -133,6 +133,9 @@ export default {
                                 buffer += (branch.recurse ? 'exp ' : '') + '*' + branch.content + '/';
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

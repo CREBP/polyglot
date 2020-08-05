@@ -85,6 +85,9 @@ export default {
                             // FIXME: No ability to recurse or meshMajor
                             buffer[settings.meshField] = {$in: [branch.content]};
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             // Do nothing
                             break;

@@ -127,6 +127,9 @@ export default {
                                 buffer += tools.quotePhrase(branch, 'pubmed') + '[Majr' + (branch.recurse ? '' : ':NoExp') + ']';
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

@@ -96,6 +96,9 @@ export default {
                                 buffer += tools.quotePhrase(branch, 'wos');
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

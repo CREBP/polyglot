@@ -128,6 +128,9 @@ export default {
                                 buffer += "'" + branch.content + (branch.recurse ? "'/exp/" : "'/de/") + 'mj';
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

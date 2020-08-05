@@ -117,6 +117,9 @@ export default {
                                 buffer += '(MM "' + branch.content + (branch.recurse ? '+' : '') + '")';
                             }
                             break;
+                        case 'bracket':
+                            buffer += branch.content;
+                            break;
                         case 'raw':
                             buffer += branch.content;
                             break;

@@ -107,20 +107,32 @@ export const parse = (query, options) => {
         var match;
 
         if (/^\(/.test(q)) {
-            var newGroup = {type: 'group', nodes: []};
-            branch.nodes.push(newGroup);
-            branchStack.push(branch);
-            branch = newGroup;
-            leaf = branch.nodes;
-        } else if (/^\)/.test(q)) {
-            lastGroup = branch;
-            if(branchStack.length > 0) {
-                branch = branchStack.pop();
+            if (settings.transposeLines) {
+                var newGroup = {type: 'group', nodes: []};
+                branch.nodes.push(newGroup);
+                branchStack.push(branch);
+                branch = newGroup;
+                leaf = branch.nodes;
             } else {
-                // TODO: Code for popover message
-                // branch.msg = "Extra closing bracket removed after term"
+                leaf = {type: 'bracket', content: '('}
+                // q = q.substr(1);
+                branch.nodes.push(leaf)
             }
-            leaf = branch.nodes;
+        } else if (/^\)/.test(q)) {
+                if (settings.transposeLines) {
+                lastGroup = branch;
+                if(branchStack.length > 0) {
+                    branch = branchStack.pop();
+                } else {
+                    // TODO: Code for popover message
+                    // branch.msg = "Extra closing bracket removed after term"
+                }
+                leaf = branch.nodes;
+            } else {
+                leaf = {type: 'bracket', content: ')'}
+                // q = q.substr(1);
+                branch.nodes.push(leaf)
+            }
         } else if (match = /^([0-9]+)\s*[‐\-]\s*([0-9]+)(?:\/(AND|OR|NOT))/i.exec(q)) { // 1-7/OR
             branch.nodes.push({
                 type: 'ref', 
@@ -237,7 +249,7 @@ export const parse = (query, options) => {
             q = q.substr(match[1].length);
             cropString = false;
             afterWhitespace = true;
-        } else if (/^\//.test(q) && leaf && leaf.type && leaf.type == 'phrase') { // Mesh term - Ovid syntax (non-exploded)
+        } else if (/^\//.test(q) && leaf && leaf.type && (leaf.type == 'phrase' || leaf.type == 'bracket')) { // Mesh term - Ovid syntax (non-exploded)
             // Major Mesh
             if(leaf.content[0] == "*") {
                 leaf.content = leaf.content.substr(1)
@@ -274,7 +286,7 @@ export const parse = (query, options) => {
         ) { // Field specifier - Ovid syntax
             // Figure out the leaf to use (usually the last one) or the previously used group {{{
             var useLeaf = {};
-            if (_.isObject(leaf) && leaf.type == 'phrase') {
+            if (_.isObject(leaf) && (leaf.type == 'phrase' || leaf.type == 'bracket')) {
                 useLeaf = leaf;
             } else if (_.isArray(leaf) && lastGroup) {
                 useLeaf = lastGroup;
@@ -331,7 +343,7 @@ export const parse = (query, options) => {
         } else if (match = /^\[(tiab|title\/abstract|ti|title|tw|ab|nm|sh|pt|all|all fields|la|language)\]/i.exec(q)) { // Field specifier - PubMed syntax
             // Figure out the leaf to use (usually the last one) or the previously used group {{{
             var useLeaf;
-            if (_.isObject(leaf) && leaf.type == 'phrase') {
+            if (_.isObject(leaf) && (leaf.type == 'phrase' || leaf.type == 'bracket')) {
                 useLeaf = leaf;
             } else if (_.isArray(leaf) && lastGroup) {
                 useLeaf = lastGroup;
@@ -403,6 +415,9 @@ export const parse = (query, options) => {
                 }
             } else if (_.isObject(leaf) && leaf.type == 'phrase') {
                 leaf.content += nextChar;
+            } else if (nextChar != ' ') { // If the leaf is a bracket then create a phrase for following characters (except spaces)
+                leaf = {type: 'phrase', content: nextChar, offset: offset};
+                branch.nodes.push(leaf);
             }
 
             afterWhitespace = nextChar == ' '; // Is the nextChar whitespace? Then set the flag
