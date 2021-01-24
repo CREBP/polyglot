@@ -84,7 +84,7 @@
   },
   "dependencies": {
     "esm": "^3.2.25",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "v-runtime-template": "^1.10.0",
     "v-tooltip": "^2.0.2",
     "vue-json-tree": "^0.3.3"
