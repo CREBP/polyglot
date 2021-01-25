@@ -22,16 +22,28 @@ describe('Translate search phrases (PubMed -> *)', ()=> {
 		expect(polyglot.translate('"term1 term2"', 'cinahl')).to.equal('"term1 term2"');
 	});
 
-	it('translate `"term1 term2"` -> PY `"term1 term2"`', ()=> {
-		expect(polyglot.translate('"term1 term2"', 'psycinfo')).to.equal('"term1 term2"');
+	it('translate `"term1 term2"` -> WS `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'wos')).to.equal('"term1 term2"');
 	});
 
 	it('translate `"term1 term2"` -> SC `"term1 term2"`', ()=> {
 		expect(polyglot.translate('"term1 term2"', 'scopus')).to.equal('"term1 term2"');
 	});
 
-	it('translate `"term1 term2"` -> WS `"term1 term2"`', ()=> {
-		expect(polyglot.translate('"term1 term2"', 'wos')).to.equal('"term1 term2"');
+	it('translate `"term1 term2"` -> PY `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'psycinfo')).to.equal('"term1 term2"');
+	});
+
+	it('translate `"term1 term2"` -> PQ `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'proquest')).to.equal('"term1 term2"');
+	});
+
+	it('translate `"term1 term2"` -> SD `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'sportdiscus')).to.equal('"term1 term2"');
+	});
+
+	it('translate `"term1 term2"` -> IH `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'informithealth')).to.equal('"term1 term2"');
 	});
 
 });
