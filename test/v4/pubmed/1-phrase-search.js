@@ -26,8 +26,16 @@ describe('Translate search phrases (PubMed -> *)', ()=> {
 		expect(polyglot.translate('"term1 term2"', 'wos')).to.equal('"term1 term2"');
 	});
 
+	it('translate `"term1 term2"` -> WSA `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'wosAdvanced')).to.equal('"term1 term2"');
+	});
+
 	it('translate `"term1 term2"` -> SC `"term1 term2"`', ()=> {
 		expect(polyglot.translate('"term1 term2"', 'scopus')).to.equal('"term1 term2"');
+	});
+
+	it('translate `"term1 term2"` -> SCA `"term1 term2"`', ()=> {
+		expect(polyglot.translate('"term1 term2"', 'scopusAdvanced')).to.equal('"term1 term2"');
 	});
 
 	it('translate `"term1 term2"` -> PY `"term1 term2"`', ()=> {

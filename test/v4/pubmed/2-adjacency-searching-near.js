@@ -26,8 +26,16 @@ describe('Translate search phrases (PubMed -> *)', ()=> {
 		expect(polyglot.translate('AND', 'wos')).to.equal('NEAR/3');
 	});
 
+	it('translate `AND` -> WSA `AND`', ()=> {
+		expect(polyglot.translate('AND', 'wosAdvanced')).to.equal('NEAR/3');
+	});
+
 	it('translate `AND` -> SC `AND`', ()=> {
 		expect(polyglot.translate('AND', 'scopus')).to.equal('W/3');
+	});
+
+	it('translate `AND` -> SCA `AND`', ()=> {
+		expect(polyglot.translate('AND', 'scopusAdvanced')).to.equal('W/3');
 	});
 
 	it('translate `AND` -> PY `AND`', ()=> {
